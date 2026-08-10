@@ -1,46 +1,411 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mini Whatsapp</title>
+
+    <title>Mini WhatsApp</title>
+
     <style>
-        .chats {
-            background-color: rgb(236, 221, 221);
-            display: inline-block;
-            height: 200px;
-            width: 500px;
-            border-radius: 10px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #e5ddd5;
+            color: #222;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #075e54, #128c7e);
+            color: white;
+            padding: 25px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #25d366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .logo h1 {
+            font-size: 25px;
+        }
+
+        .logo p {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+
+        /* Main */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            color: #075e54;
+            font-size: 28px;
+        }
+
+        .chat-count {
+            background: #25d366;
+            color: white;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* Chat Card */
+        .chats {
+            background: #ffffff;
+            width: 100%;
+            min-height: 180px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            padding: 22px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border-left: 5px solid #25d366;
+        }
+
+        .chats:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.13);
+        }
+
+        .chat-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .person {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #128c7e, #25d366);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .person-info p {
+            margin: 0;
+        }
+
+        .from {
+            font-size: 16px;
+            font-weight: bold;
+            color: #075e54;
+        }
+
+        .to {
+            color: #888;
+            font-size: 13px;
+            margin-top: 4px !important;
+        }
+
+        /* Message bubble */
         .msg {
-            background-color: rgb(15, 50, 248);
-            padding: 15px;
-            border-radius: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
+            background: #dcf8c6;
+            padding: 15px 18px;
+            border-radius: 5px 16px 16px 16px;
+            margin: 15px 0;
+            color: #222;
+            position: relative;
+        }
+
+        .msg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -8px;
+            border-top: 10px solid #dcf8c6;
+            border-left: 10px solid transparent;
+        }
+
+        .msg p {
+            line-height: 1.5;
+            font-size: 15px;
+            word-wrap: break-word;
+        }
+
+        /* Buttons */
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .actions form {
+            margin: 0;
+        }
+
+        button {
+            border: none;
+            padding: 9px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .edit-btn {
+            background: #e8f5e9;
+            color: #128c7e;
+        }
+
+        .edit-btn:hover {
+            background: #128c7e;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #ffebee;
+            color: #e53935;
+        }
+
+        .delete-btn:hover {
+            background: #e53935;
+            color: white;
+        }
+
+        /* New message button */
+        .new-message {
+            display: flex;
+            justify-content: center;
+            margin: 35px 0;
+        }
+
+        .new-message a {
+            text-decoration: none;
+            background: linear-gradient(135deg, #128c7e, #25d366);
+            color: white;
+            padding: 14px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
+            transition: all 0.25s ease;
+        }
+
+        .new-message a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Empty state */
+        .empty {
+            text-align: center;
+            background: white;
+            border-radius: 18px;
+            padding: 50px 20px;
+            color: #777;
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .header-content {
+                align-items: flex-start;
+            }
+
+            .logo h1 {
+                font-size: 21px;
+            }
+
+            .page-title h2 {
+                font-size: 23px;
+            }
+
+            .chats {
+                padding: 18px;
+            }
+
+            .actions {
+                flex-wrap: wrap;
+            }
+
+            button {
+                padding: 8px 15px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <h2>All Chats</h2>
-    <%for(let chat of chats ) { %>
-    <div class="chats">
-    <p>From:<%= chat.from %></p>
-    <div class="msg">
-        <p><%= chat.msg %></p>
-        <form action="/chats/<%= chat._id %>/edit" method="get" >
-            <button>Edit</button>
-        </form>
-<form action="/chats/<%= chat._id %>?_method=DELETE" method="POST">
-    <button type="submit">Delete</button>
-</form>
-    </div>
-    <p>Received by:<%= chat.to %></p>
-    <hr>
-    </div>
-    <br>
-    <br>
-<%}%>
-<a href="http://localhost:3000/chats/new">Create new Message</a>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+
+            <div class="logo">
+                <div class="logo-icon">💬</div>
+
+                <div>
+                    <h1>Mini WhatsApp</h1>
+                    <p>Simple. Fast. Connected.</p>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- Main -->
+    <main class="container">
+
+        <div class="page-title">
+            <h2>All Chats</h2>
+
+            <span class="chat-count">
+                <%= chats.length %> Chats
+            </span>
+        </div>
+
+
+        <% if (chats.length === 0) { %>
+
+            <div class="empty">
+                <div class="empty-icon">💬</div>
+
+                <h3>No chats yet</h3>
+
+                <p>Start a new conversation!</p>
+            </div>
+
+        <% } %>
+
+
+        <% for(let chat of chats) { %>
+
+            <div class="chats">
+
+                <div class="chat-info">
+
+                    <div class="person">
+
+                        <div class="avatar">
+                            <%= chat.from.charAt(0).toUpperCase() %>
+                        </div>
+
+                        <div class="person-info">
+
+                            <p class="from">
+                                <%= chat.from %>
+                            </p>
+
+                            <p class="to">
+                                To: <%= chat.to %>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Message -->
+                <div class="msg">
+                    <p>
+                        <%= chat.msg %>
+                    </p>
+                </div>
+
+
+                <!-- Actions -->
+                <div class="actions">
+
+                    <form
+                        action="/chats/<%= chat._id %>/edit"
+                        method="get"
+                    >
+                        <button class="edit-btn" type="submit">
+                            ✏️ Edit
+                        </button>
+                    </form>
+
+
+                    <form
+                        action="/chats/<%= chat._id %>?_method=DELETE"
+                        method="POST"
+                    >
+                        <button class="delete-btn" type="submit">
+                            🗑️ Delete
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+
+        <% } %>
+
+
+        <!-- New Message -->
+        <div class="new-message">
+
+            <a href="/chats/new">
+                ➕ Create New Message
+            </a>
+
+        </div>
+
+    </main>
+
 </body>
 </html>
+```
