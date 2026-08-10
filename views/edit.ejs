@@ -3,13 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit</title>
+
+    <title>Edit Message | Mini WhatsApp</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #075e54, #128c7e, #25d366);
+        }
+
+        .card {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #128c7e, #25d366);
+            color: white;
+            font-size: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #075e54;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .chat-preview {
+            background: #f0f2f5;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .chat-preview p {
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        .chat-preview strong {
+            color: #075e54;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 130px;
+            resize: vertical;
+            border: 2px solid #e2e2e2;
+            border-radius: 14px;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #25d366;
+            box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.12);
+        }
+
+        textarea::placeholder {
+            color: #aaa;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        button,
+        .cancel {
+            flex: 1;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .update-btn {
+            border: none;
+            background: linear-gradient(135deg, #128c7e, #25d366);
+            color: white;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+        }
+
+        .cancel {
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #555;
+        }
+
+        .cancel:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        .tip {
+            margin-top: 22px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .card {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
-<body> 
-    <h3>Edit your chats</h3>
-<form action="/chats/<%= chat._id %>?_method=PUT" method="POST">
-    <input name="newmsgg" placeholder="New message">
-    <button>Update</button>
-</form>
+
+<body>
+
+    <div class="card">
+
+        <div class="icon">
+            ✏️
+        </div>
+
+        <h1>Edit Message</h1>
+
+        <p class="subtitle">
+            Update your message and save your changes
+        </p>
+
+
+        <!-- Chat information -->
+        <div class="chat-preview">
+
+            <p>
+                From:
+                <strong><%= chat.from %></strong>
+            </p>
+
+            <p>
+                To:
+                <strong><%= chat.to %></strong>
+            </p>
+
+        </div>
+
+
+        <!-- Edit form -->
+        <form
+            action="/chats/<%= chat._id %>?_method=PUT"
+            method="POST"
+        >
+
+            <label for="message">
+                Your message
+            </label>
+
+            <textarea
+                id="message"
+                name="newmsgg"
+                placeholder="Write your new message..."
+                required
+            ><%= chat.msg %></textarea>
+
+
+            <div class="buttons">
+
+                <a href="/chats" class="cancel">
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="update-btn"
+                >
+                    ✓ Update Message
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <p class="tip">
+            💡 Your changes will be saved instantly.
+        </p>
+
+    </div>
+
 </body>
-</html> 
+</html>
