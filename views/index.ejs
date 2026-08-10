@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mini Whatsapp</title>
+    <style>
+        .chats {
+            background-color: rgb(236, 221, 221);
+            display: inline-block;
+            height: 200px;
+            width: 500px;
+            border-radius: 10px;
+        }
+        .msg {
+            background-color: rgb(15, 50, 248);
+            padding: 15px;
+            border-radius: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>All Chats</h2>
+    <%for(let chat of chats ) { %>
+    <div class="chats">
+    <p>From:<%= chat.from %></p>
+    <div class="msg">
+        <p><%= chat.msg %></p>
+        <form action="/chats/<%= chat._id %>/edit" method="get" >
+            <button>Edit</button>
+        </form>
+<form action="/chats/<%= chat._id %>?_method=DELETE" method="POST">
+    <button type="submit">Delete</button>
+</form>
+    </div>
+    <p>Received by:<%= chat.to %></p>
+    <hr>
+    </div>
+    <br>
+    <br>
+<%}%>
+<a href="http://localhost:3000/chats/new">Create new Message</a>
+</body>
+</html>
