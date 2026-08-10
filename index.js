@@ -34,7 +34,7 @@ app.get("/chats", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("server success");
+  res.redirect("/chats");
 });
 
 // New chat
