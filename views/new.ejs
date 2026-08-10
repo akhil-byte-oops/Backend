@@ -3,16 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New message</title>
+
+    <title>New Message</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #075e54, #128c7e, #25d366);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #25d366;
+            color: white;
+            font-size: 30px;
+        }
+
+        .header h1 {
+            color: #075e54;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 13px 15px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #25d366;
+            box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.12);
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            background: linear-gradient(135deg, #128c7e, #25d366);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #128c7e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #075e54;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<form action="/chats" method="POST"> 
-    <label>From:</label> 
-    <input type="text" name="from" required> <br><br> 
-    <label>To:</label> <input type="text" name="to" required> <br><br> 
-    <label>Message:</label> <textarea name="msg" required></textarea>
-     <br><br>
-     <button type="submit">Send</button> 
-</form>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="icon">💬</div>
+
+            <h1>New Message</h1>
+            <p>Start a new conversation</p>
+        </div>
+
+        <form action="/chats" method="POST">
+
+            <div class="form-group">
+                <label for="from">From</label>
+                <input
+                    type="text"
+                    id="from"
+                    name="from"
+                    placeholder="Enter your name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="to">To</label>
+                <input
+                    type="text"
+                    id="to"
+                    name="to"
+                    placeholder="Enter recipient's name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="msg">Message</label>
+                <textarea
+                    id="msg"
+                    name="msg"
+                    placeholder="Type your message..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit">
+                Send Message ✈️
+            </button>
+
+        </form>
+
+        <a href="/chats" class="back-link">
+            ← Back to Chats
+        </a>
+
+    </div>
+
 </body>
 </html>
